@@ -1,15 +1,5 @@
 from lxml import etree
-
 from scrape import requestCD, requestUD
-
-
-def inputList(fileName):
-    result = []
-    file = open(fileName, 'r')
-    for line in file:
-        result.append(line)
-    file.close()
-    return result
 
 
 def dumpWord(filename, word):
@@ -32,5 +22,31 @@ def dumpWord(filename, word):
 
 
 def appendWord(xmlFile, word):
-    pass
-    # how could it be done, for fuck sake?
+    out = open(xmlFile, 'a')
+    out.write(str(word))
+    out.write('\n')
+    out.close()
+
+
+def inputList(fileName):
+    result = []
+    file = open(fileName, 'r')
+    for line in file:
+        result.append(line)
+    file.close()
+    return result
+
+
+def handleList(inputFile, out_xmlFile):
+    wordlist = inputList(inputFile)
+
+    out = open(out_xmlFile, 'a')
+    for word in wordlist:
+        print(word)
+        res = requestCD(word[:-1])
+        out.write(str(res))
+        out.write('\n')
+    out.close()
+
+
+

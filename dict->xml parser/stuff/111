@@ -1,0 +1,15 @@
+"""
+  def ___str___(self):
+      if len(self.formulation) == 0:
+          return
+      else:
+          result = "<DEF_BLOCK>'\n'"
+          result += "<FRML>'\n'"
+          result += self.formulation + '\n'
+          result += "</FRML>'\n'"
+          for example in self.examples:
+              result += "<EXM>'\n'"
+              result += example + '\n'
+              result += "</EXM>'\n'"
+          return result
+  """

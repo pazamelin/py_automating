@@ -1,5 +1,4 @@
 import files
-from scrape import requestCD, requestUD, requestCD_subItem
+from scrape import requestCD, requestUD, requestCD_subItem, request_initialForm
 
-res = requestCD("burst")
-files.dumpWord("test.xml", res)
+files.handleList("words.txt", "test2.xml")

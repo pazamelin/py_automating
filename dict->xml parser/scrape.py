@@ -4,6 +4,15 @@ import requests
 import structure
 
 
+def request_initialForm(item):
+    frameURL = 'https://www.dictionary.com/browse/'
+    res = requests.get(frameURL + item)
+    res.raise_for_status()
+    soup = bs4.BeautifulSoup(res.text, "html.parser")
+    initialForm = (soup.findAll("h1", {"class": "css-1jzk4d9 e1rg2mtf8"}))[0].getText()
+    return initialForm
+
+
 def requestCD_subItem(item):
     time_start = time.time()
     frameURL = 'https://dictionary.cambridge.org/dictionary/english/'
@@ -45,7 +54,13 @@ def requestCD(word):
 
     dictionary_blocks = (soup.findAll("div", {"class": "pr dictionary"}))
     if len(dictionary_blocks) == 0:
-        return 1
+        try_initial = request_initialForm(word)
+        res = requests.get(frameURL + try_initial)
+        res.raise_for_status()
+        soup = bs4.BeautifulSoup(res.text, "html.parser")
+        dictionary_blocks = (soup.findAll("div", {"class": "pr dictionary"}))
+        if len(dictionary_blocks) == 0:
+            return 1
     dictionary_block = dictionary_blocks[0]
 
     headers = (dictionary_block.findAll("div", {"class": "pos-header dpos-h"}))
