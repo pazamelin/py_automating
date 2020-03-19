@@ -25,6 +25,10 @@ TYPE
 {
 display: block;
 }
+WORD_TYPE
+{
+margin-right: 5pt;
+}
 FORMS
 {
 display: block;
@@ -69,5 +73,10 @@ margin:5pt;
 SUB_ITEM > DEF_BLOCK
 {
 background-color:#c2ffc2
+}
+TRUS_BLOCK
+{
+font-style:italic;
+font-size:13pt;
 }
 

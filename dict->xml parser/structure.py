@@ -11,6 +11,8 @@ class Word:
         self.word = word
         self.pronun = pronun
         self.wtype = wtype
+        self.usage_type = ""
+        self.translations = []
         self.irreg_forms = []
         self.definitions = []
         self.idioms = []
@@ -50,9 +52,23 @@ class Word:
         pronunciation.text = self.pronun
         root.append(pronunciation)
 
-        wtype = etree.Element('TYPE')
+        types = etree.Element('TYPE')
+
+        wtype = etree.Element('WORD_TYPE')
         wtype.text = self.wtype
-        root.append(wtype)
+        types.append(wtype)
+
+        utype = etree.Element('USAGE')
+        utype.text = self.usage_type
+        types.append(utype)
+        root.append(types)
+
+        translations = etree.Element('TRUS_BLOCK')
+        for item in self.translations:
+            translation = etree.Element('TRUS')
+            translation.text = item
+            translations.append(translation)
+        root.append(translations)
 
         if len(self.irreg_forms) > 0:
             irreg_forms = etree.Element('FORMS')

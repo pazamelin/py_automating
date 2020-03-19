@@ -1,4 +1,13 @@
 import files
-from scrape import requestCD, requestUD, requestCD_subItem, request_initialForm
+import time
+import scrape
 
-files.handleList("words.txt", "test2.xml")
+time_start = time.time()
+files.sortAlphabet("19mar.txt")
+files.handleList("19mar.txt", "")
+print(time.time() - time_start)
+"""
+res = scrape.requestTranslation("profound")
+if res is not None:
+    print(res)
+"""

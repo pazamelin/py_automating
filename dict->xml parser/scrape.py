@@ -4,6 +4,26 @@ import requests
 import structure
 
 
+def requestTranslation(word):
+    frameURL = 'https://www.babla.ru/английский-русский/'
+    res = requests.get(frameURL + word)
+    res.raise_for_status()
+    soup = bs4.BeautifulSoup(res.text, "html.parser")
+    container = soup.findAll("div", {"class": "quick-results container"})[0]
+    translations = container.findAll("ul", {"class": "sense-group-results"})
+
+    if len(translations) > 0:
+        res = []
+        for block in translations:
+            items = block.findAll("li")
+            for item in items:
+                res.append(item.getText())
+        return res
+    else:
+        res = []
+        return res
+
+
 def request_initialForm(item):
     frameURL = 'https://www.dictionary.com/browse/'
     res = requests.get(frameURL + item)
@@ -98,6 +118,14 @@ def requestCD(word):
         for form in forms:
             newWord.irreg_forms.append(form.getText())
 
+    usage_type = (header.findAll("span", {"class": "lab dlab"}))
+    if len(usage_type) > 0:
+        usage_type = usage_type[0].getText()
+    else:
+        usage_type = ""
+    newWord.usage_type = usage_type
+
+    newWord.translations = requestTranslation(word)
     for definition in definitions:
         formulations = (definition.findAll("div", {"class": "def ddef_d db"}))
         formulation = None
